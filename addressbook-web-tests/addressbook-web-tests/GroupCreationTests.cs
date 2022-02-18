@@ -25,28 +25,32 @@ namespace Addressbook_web_tests
             verificationErrors = new StringBuilder();
         }
 
-        [TearDown]
-        public void TeardownTest()
-        {
-            try
-            {
-                driver.Quit();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
-            Assert.AreEqual("", verificationErrors.ToString());
-        }
+        //[TearDown]
+        //public void TeardownTest()
+        //{
+        //    try
+        //    {
+        //        driver.Quit();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        // Ignore errors if unable to close the browser
+        //    }
+        //    Assert.AreEqual("", verificationErrors.ToString());
+        //}
 
         [Test]
         public void GroupCreation()
         {
+            AccountData admin = new AccountData("admin", "secret");
+            GroupData friends = new GroupData("bastards");
+            friends.Header = "drink";
+            friends.Footer = "vodka";
             OpenHomePage();
-            Login("admin","secret");
+            Login(admin);
             GoToGroupsPage();
             CreateNewGroup();
-            FillGroupForm("new_test_group", "some_header", "some_footer");
+            FillGroupForm(friends);
             SubmitGroupCreation();
             ReturnToGroupsPage();
             Logout();
@@ -67,16 +71,17 @@ namespace Addressbook_web_tests
             driver.FindElement(By.Name("submit")).Click();
         }
 
-        private void FillGroupForm(string name, string header, string footer)
+        private void FillGroupForm(GroupData groupData)
         {
+            
             driver.FindElement(By.Name("group_name")).Click();
             driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(name);
+            driver.FindElement(By.Name("group_name")).SendKeys(groupData.Groupname);
             driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(header);
+            driver.FindElement(By.Name("group_header")).SendKeys(groupData.Header);
             driver.FindElement(By.Name("group_footer")).Click();
             driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(footer);
+            driver.FindElement(By.Name("group_footer")).SendKeys(groupData.Footer);
         }
 
         private void CreateNewGroup()
@@ -89,13 +94,13 @@ namespace Addressbook_web_tests
             driver.FindElement(By.LinkText("groups")).Click();
         }
 
-        private void Login(string userName, string password)
-        {
+        private void Login(AccountData user)
+        {           
             driver.FindElement(By.Name("user")).Click();
             driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(userName);
+            driver.FindElement(By.Name("user")).SendKeys(user.Username);
             driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(password);
+            driver.FindElement(By.Name("pass")).SendKeys(user.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
 
