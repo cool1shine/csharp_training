@@ -14,14 +14,14 @@ namespace Addressbook_web_tests
             friends.Header = "drink";
             friends.Footer = "vodka";
 
-            OpenHomePage();
-            Login(admin);
-            GoToGroupsPage();
-            CreateNewGroup();
-            FillGroupForm(friends);
-            SubmitGroupCreation();
-            GoToGroupsPage();
-            Logout();
+            navigationHelper.OpenHomePage();
+            loginHelper.Login(admin);
+            navigationHelper.GoToGroupsPage();
+            groupHelper.CreateNewGroup();
+            groupHelper.FillGroupForm(friends);
+            groupHelper.SubmitGroupCreation();
+            navigationHelper.GoToGroupsPage();
+            loginHelper.Logout();
         }
     }
 }

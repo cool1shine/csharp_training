@@ -11,13 +11,13 @@ namespace Addressbook_web_tests
             AccountData admin = new AccountData("admin", "secret");
             ContactData contact = new ContactData("Olya", "Chika");
 
-            OpenHomePage();
-            Login(admin);
-            AddNewContact(contact);
-            FillContactData(contact);
-            SubmitContactCreation();
-            GoToHomePage();
-            Logout();
+            navigationHelper.OpenHomePage();
+            loginHelper.Login(admin);
+            contactHelper.AddNewContact(contact);
+            contactHelper.FillContactData(contact);
+            contactHelper.SubmitContactCreation();
+            navigationHelper.GoToHomePage();
+            loginHelper.Logout();
         }
     }
 }

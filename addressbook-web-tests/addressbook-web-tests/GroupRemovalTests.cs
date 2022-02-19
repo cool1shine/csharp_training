@@ -10,13 +10,13 @@ namespace Addressbook_web_tests
         {
             AccountData admin = new AccountData("admin", "secret");
 
-            OpenHomePage();
-            Login(admin);
-            GoToGroupsPage();
-            SelectGroup(1);
-            RemoveGroup();
-            GoToGroupsPage();
-            Logout();
+            navigationHelper.OpenHomePage();
+            loginHelper.Login(admin);
+            navigationHelper.GoToGroupsPage();
+            groupHelper.SelectGroup(1);
+            groupHelper.RemoveGroup();
+            navigationHelper.GoToGroupsPage();
+            loginHelper.Logout();
         }
     }
 }
