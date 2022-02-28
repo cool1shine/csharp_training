@@ -7,17 +7,11 @@ namespace Addressbook_web_tests
     {        
         [Test]
         public void ContactCreation()
-        {
-            AccountData admin = new AccountData("admin", "secret");
+        {            
             ContactData contact = new ContactData("Vika", "Chika");
 
-            applicationManager.NavigationHelper.OpenHomePage();
-            applicationManager.LoginHelper.Login(admin);
-            applicationManager.ContactHelper.AddNewContact(contact);
-            applicationManager.ContactHelper.FillContactData(contact);
-            applicationManager.ContactHelper.SubmitContactCreation();
-            applicationManager.NavigationHelper.GoToHomePage();
-            applicationManager.LoginHelper.Logout();
+            applicationManager.ContactHelper.CreateNewContact(contact);
+                       
         }
     }
 }

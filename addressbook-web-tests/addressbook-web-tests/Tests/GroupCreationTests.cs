@@ -8,20 +8,23 @@ namespace Addressbook_web_tests
         [Test]
         public void GroupCreation()
         {
-            AccountData admin = new AccountData("admin", "secret");
             GroupData friends = new GroupData("bastards");
 
             friends.Header = "drink";
             friends.Footer = "vodka";
+                                   
+            applicationManager.GroupHelper.CreateGroup(friends);
+        }
 
-            applicationManager.NavigationHelper.OpenHomePage();
-            applicationManager.LoginHelper.Login(admin);
-            applicationManager.NavigationHelper.GoToGroupsPage();
-            applicationManager.GroupHelper.CreateNewGroup();
-            applicationManager.GroupHelper.FillGroupForm(friends);
-            applicationManager.GroupHelper.SubmitGroupCreation();
-            applicationManager.NavigationHelper.GoToGroupsPage();
-            applicationManager.LoginHelper.Logout();
+        [Test]
+        public void EmptyGroupCreation()
+        {
+            GroupData friends = new GroupData("");
+
+            friends.Header = "";
+            friends.Footer = ""; 
+
+            applicationManager.GroupHelper.CreateGroup(friends);
         }
     }
 }

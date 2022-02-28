@@ -1,23 +1,34 @@
 ﻿using OpenQA.Selenium;
-
+using System;
 
 namespace Addressbook_web_tests
 {
     public class ContactHelper : HelperBase
     {
-        public ContactHelper(IWebDriver driver) : base(driver) { }
+        public ContactHelper(ApplicationManager manager) : base(manager) { }
 
-        public void AddNewContact(ContactData contact)
+        public ContactHelper AddNewContact(ContactData contact)
         {
             driver.FindElement(By.LinkText("add new")).Click();
+            return this;
         }
 
-        public void SubmitContactCreation()
+        public ContactHelper CreateNewContact(ContactData contact)
+        {
+            manager.ContactHelper.AddNewContact(contact);
+            FillContactData(contact);
+            SubmitContactCreation();
+            manager.NavigationHelper.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//div[@id='content']/form/input[21]")).Click();
+            return this;
         }
 
-        public void FillContactData(ContactData contact)
+        public ContactHelper FillContactData(ContactData contact)
         {
             driver.FindElement(By.Name("firstname")).Click();
             driver.FindElement(By.Name("firstname")).Clear();
@@ -100,6 +111,7 @@ namespace Addressbook_web_tests
             driver.FindElement(By.Name("notes")).Click();
             driver.FindElement(By.Name("notes")).Clear();
             driver.FindElement(By.Name("notes")).SendKeys(contact.Notes);
+            return this;
         }
     }
 }
