@@ -13,5 +13,14 @@ namespace Addressbook_web_tests
             applicationManager.ContactHelper.CreateNewContact(contact);
                        
         }
+
+        [Test]
+        public void EmptyContactCreation()
+        {
+            ContactData contact = new ContactData("", "");
+
+            applicationManager.ContactHelper.CreateNewContact(contact);
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 
 namespace Addressbook_web_tests
 {
@@ -6,24 +7,81 @@ namespace Addressbook_web_tests
     {
         public ContactHelper(ApplicationManager manager) : base(manager) { }
 
-        public ContactHelper AddNewContact(ContactData contact)
-        {
-            driver.FindElement(By.LinkText("add new")).Click();
-            return this;
-        }
-
         public ContactHelper CreateNewContact(ContactData contact)
         {
-            manager.ContactHelper.AddNewContact(contact);
+            InitContactCreation();
             FillContactData(contact);
             SubmitContactCreation();
             manager.NavigationHelper.GoToHomePage();
             return this;
         }
 
+        public ContactHelper RemoveContact(int pos)
+        {
+            SelectContact(pos);
+            DeleteSelectedContact();
+            return this;
+        }
+
+        public ContactHelper RemoveAllContacts()
+        {
+            SelectAllContacts();
+            DeleteSelectedContact();
+            return this;
+        }
+
+        public ContactHelper ModifyContact(int pos, ContactData newContact)
+        {
+            InitContactModification(pos);
+            FillContactData(newContact);
+            SubmitContactModification();
+            manager.NavigationHelper.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper InitContactCreation()
+        {
+            driver.FindElement(By.LinkText("add new")).Click();
+            return this;
+        }
+
+        public ContactHelper InitContactModification(int pos)
+        {
+            pos++;            
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + pos + "]/td[8]/a/img")).Click();
+            //driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact(int pos)
+        {
+            pos++;
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + pos + "]/td/input")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectAllContacts()
+        {
+            driver.FindElement(By.Id("MassCB")).Click();
+            return this;
+        }
+
+        public ContactHelper DeleteSelectedContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
+
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//div[@id='content']/form/input[21]")).Click();
+            return this;
+        }
+
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
             return this;
         }
 
@@ -47,12 +105,12 @@ namespace Addressbook_web_tests
             //driver.FindElement(By.Name("photo")).Clear();
             //driver.FindElement(By.Name("photo")).SendKeys("C:\\fakepath\\photo.png");
 
-            driver.FindElement(By.Name("title")).Click();
-            driver.FindElement(By.Name("title")).Clear();
-            driver.FindElement(By.Name("title")).SendKeys(contact.Title);
             driver.FindElement(By.Name("company")).Click();
             driver.FindElement(By.Name("company")).Clear();
             driver.FindElement(By.Name("company")).SendKeys(contact.Company);
+            driver.FindElement(By.Name("title")).Click();
+            driver.FindElement(By.Name("title")).Clear();
+            driver.FindElement(By.Name("title")).SendKeys(contact.Title);
             driver.FindElement(By.Name("address")).Click();
             driver.FindElement(By.Name("address")).Clear();
             driver.FindElement(By.Name("address")).SendKeys(contact.Address);
