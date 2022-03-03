@@ -62,15 +62,11 @@ namespace Addressbook_web_tests
 
         public GroupHelper FillGroupForm(GroupData groupData)
         {
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(groupData.Groupname);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(groupData.Header);
-            driver.FindElement(By.Name("group_footer")).Click();
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(groupData.Footer);
-            return this;
+
+                Type(By.Name("group_name"), groupData.Groupname);
+                Type(By.Name("group_header"), groupData.Header);
+                Type(By.Name("group_footer"), groupData.Footer);
+                return this;
         }
 
         public GroupHelper SubmitGroupCreation()

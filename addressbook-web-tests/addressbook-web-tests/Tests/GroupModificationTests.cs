@@ -9,10 +9,10 @@ namespace Addressbook_web_tests
         public void GroupModification()
         {
             int selectedGroup = 1;
-            GroupData modified_friends = new GroupData("modified_bastards");
+            GroupData modified_friends = new GroupData(null);
 
-            modified_friends.Header = "smoke";
-            modified_friends.Footer = "a lot";
+            modified_friends.Header = null;
+            modified_friends.Footer = "xxx";
 
             applicationManager.GroupHelper.ModifyGroup(selectedGroup, modified_friends);
         }

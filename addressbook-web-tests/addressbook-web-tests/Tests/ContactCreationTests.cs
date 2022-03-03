@@ -9,6 +9,7 @@ namespace Addressbook_web_tests
         public void ContactCreation()
         {            
             ContactData contact = new ContactData("Vika", "Chika");
+            contact.Company = "GGG";
 
             applicationManager.ContactHelper.CreateNewContact(contact);
                        

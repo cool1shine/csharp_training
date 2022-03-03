@@ -23,7 +23,7 @@ namespace Addressbook_web_tests
         }
 
         public IWebDriver Driver
-        { get { return driver; } }
+        { get{return driver; } }
 
         public LoginHelper LoginHelper 
         { get{return loginHelper;} }
