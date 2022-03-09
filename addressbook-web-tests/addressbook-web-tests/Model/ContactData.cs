@@ -3,20 +3,20 @@
     public class ContactData
     {     
         private string firstname;
-        private string middlename = "";
+        private string middlename;
         private string lastname;
-        private string nickname = "";
-        private string title = "";
-        private string company = "";
-        private string address = "";
-        private string home = "";
-        private string mobile = "";
-        private string work = "";
-        private string fax = "";
-        private string email = "";
-        private string email2 = "";
-        private string email3 = "";
-        private string homepage = "";
+        private string nickname;
+        private string title;
+        private string company;
+        private string address;
+        private string home;
+        private string mobile;
+        private string work;
+        private string fax;
+        private string email;
+        private string email2;
+        private string email3;
+        private string homepage;
 
         //Не получается сделать выбор даты
         //private string bday = "1";
@@ -26,14 +26,15 @@
         //private string amonth = "January";
         //private string ayear = "2000";
 
-        private string address2 = "";
-        private string phone2 = "";
-        private string notes = "";
+        private string address2;
+        private string phone2;
+        private string notes;
 
         public ContactData(string firstname, string lastname)
         {
             this.firstname = firstname;
             this.lastname = lastname;
+
         }
 
         public string Firstname

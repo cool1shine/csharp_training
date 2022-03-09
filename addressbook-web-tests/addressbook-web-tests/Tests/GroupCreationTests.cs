@@ -3,7 +3,7 @@
 namespace Addressbook_web_tests
 {
     [TestFixture]
-    public class GroupCreationTestCase : BaseTest
+    public class GroupCreationTestCase : AuthTestBase
     {
         [Test]
         public void GroupCreation()

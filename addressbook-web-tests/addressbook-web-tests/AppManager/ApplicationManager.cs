@@ -1,5 +1,10 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Text;
+using System.Threading;
+using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+
 
 namespace Addressbook_web_tests
 {
@@ -12,7 +17,9 @@ namespace Addressbook_web_tests
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
 
-        public ApplicationManager()
+        private static ThreadLocal<ApplicationManager> applicationManager = new ThreadLocal<ApplicationManager>();
+
+        private ApplicationManager()
         {
             driver = new FirefoxDriver();
             baseURL = "http://localhost/addressbook/";            
@@ -20,6 +27,22 @@ namespace Addressbook_web_tests
             navigationHelper = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
+        }
+
+        ~ApplicationManager()
+        {
+            driver.Quit();
+        }
+
+        public static ApplicationManager GetInstance()
+        {
+            if ( ! applicationManager.IsValueCreated)
+            { 
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.NavigationHelper.OpenHomePage();
+                applicationManager.Value = newInstance;                
+            }
+            return applicationManager.Value;
         }
 
         public IWebDriver Driver
@@ -37,9 +60,5 @@ namespace Addressbook_web_tests
         public ContactHelper ContactHelper
         { get{return contactHelper;} }
 
-        public void StopTest()
-        {
-            driver.Quit();       
-        }
     }
 }

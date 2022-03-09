@@ -3,25 +3,14 @@
 namespace Addressbook_web_tests
 {
     [TestFixture]
-    public class BaseTest
+    public class TestBase
     {
         protected ApplicationManager applicationManager;
 
         [SetUp]
-        protected void SetupTest()
+        protected void SetupApplicationManager()
         {
-            AccountData user = new AccountData("admin", "secret");
-            applicationManager = new ApplicationManager();
-            applicationManager.NavigationHelper.OpenHomePage();
-            applicationManager.LoginHelper.Login(user);
-        }
-
-        [TearDown]
-        public void TearDownTest()
-        {
-            applicationManager.LoginHelper.Logout();
-            applicationManager.StopTest();
-        }
-        
+            applicationManager = ApplicationManager.GetInstance();
+        }        
     }
 }
