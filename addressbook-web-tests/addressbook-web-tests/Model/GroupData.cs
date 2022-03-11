@@ -3,8 +3,8 @@
     public class GroupData
     {
         private string groupname;
-        private string header = "";
-        private string footer = "";
+        private string header = null;
+        private string footer = null;
 
 
         public GroupData(string groupname)

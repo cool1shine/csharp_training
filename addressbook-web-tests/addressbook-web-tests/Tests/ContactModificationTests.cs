@@ -8,7 +8,7 @@ namespace Addressbook_web_tests
         [Test]
         public void ContactModification()
         {
-            int position = 2;
+            int position = 1;
             ContactData modifiedContact = new ContactData("Vika_mod", "Chika_mod");
            
             applicationManager.ContactHelper.ModifyContact(position, modifiedContact);

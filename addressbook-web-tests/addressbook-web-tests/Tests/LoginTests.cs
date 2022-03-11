@@ -8,7 +8,7 @@ namespace Addressbook_web_tests
         [Test]
         public void LoginValidCredentials()
         {
-            AccountData user = new AccountData("admin", "secret"); 
+            AccountData user = new AccountData("admin", "secret");
             applicationManager.LoginHelper.Login(user);
             Assert.IsTrue(applicationManager.LoginHelper.IsLoggedIn(user));
         }

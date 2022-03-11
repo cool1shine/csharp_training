@@ -18,22 +18,62 @@ namespace Addressbook_web_tests
 
         public ContactHelper RemoveContact(int pos)
         {
+            pos++;
+
+            if (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")))
+            {
+                DeleteSelectedContact(--pos);
+                return this;
+            }
+
+            while (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")) == false)
+            {
+                ContactData contactRemovalTest = new ContactData("Test", "Removal");
+                CreateNewContact(contactRemovalTest);
+            }
+
+            DeleteSelectedContact(--pos);
+            return this;
+        }
+
+        public ContactHelper ModifyContact(int pos, ContactData modContact)
+        {
+            pos++;
+
+            if (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")))
+            {
+                ModifySelectedContact(--pos, modContact);
+                return this;
+            }
+
+            while (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")) == false)
+            {
+                ContactData contactModTest = new ContactData("Test", "Modification");
+                CreateNewContact(contactModTest);
+            }
+
+            ModifySelectedContact(--pos, modContact);
+            return this;
+        }
+
+        public ContactHelper DeleteSelectedContact(int pos)
+        {
             SelectContact(pos);
-            DeleteSelectedContact();
+            DeleteContacts();
             return this;
         }
 
         public ContactHelper RemoveAllContacts()
         {
             SelectAllContacts();
-            DeleteSelectedContact();
+            DeleteContacts();
             return this;
         }
 
-        public ContactHelper ModifyContact(int pos, ContactData newContact)
+        public ContactHelper ModifySelectedContact(int pos, ContactData modContact)
         {
             InitContactModification(pos);
-            FillContactData(newContact);
+            FillContactData(modContact);
             SubmitContactModification();
             manager.NavigationHelper.GoToHomePage();
             return this;
@@ -49,14 +89,13 @@ namespace Addressbook_web_tests
         {
             pos++;            
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + pos + "]/td[8]/a/img")).Click();
-            //driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
             return this;
         }
 
         public ContactHelper SelectContact(int pos)
         {
             pos++;
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + pos + "]/td/input")).Click();
+            driver.FindElement(By.XPath("//tr[" + pos + "]/td/input")).Click();
             return this;
         }
 
@@ -66,7 +105,7 @@ namespace Addressbook_web_tests
             return this;
         }
 
-        public ContactHelper DeleteSelectedContact()
+        public ContactHelper DeleteContacts()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();

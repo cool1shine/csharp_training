@@ -2,21 +2,21 @@
 {
     public class ContactData
     {     
-        private string firstname;
-        private string middlename;
-        private string lastname;
-        private string nickname;
-        private string title;
-        private string company;
-        private string address;
-        private string home;
-        private string mobile;
-        private string work;
-        private string fax;
-        private string email;
-        private string email2;
-        private string email3;
-        private string homepage;
+        private string firstname = null;
+        private string middlename = null;
+        private string lastname = null;
+        private string nickname = null;
+        private string title = null;
+        private string company = null;
+        private string address = null;
+        private string home = null;
+        private string mobile = null;
+        private string work = null;
+        private string fax = null;
+        private string email = null;
+        private string email2 = null;
+        private string email3 = null;
+        private string homepage = null;
 
         //Не получается сделать выбор даты
         //private string bday = "1";
@@ -26,15 +26,14 @@
         //private string amonth = "January";
         //private string ayear = "2000";
 
-        private string address2;
-        private string phone2;
-        private string notes;
+        private string address2 = null;
+        private string phone2 = null;
+        private string notes = null;
 
         public ContactData(string firstname, string lastname)
         {
             this.firstname = firstname;
             this.lastname = lastname;
-
         }
 
         public string Firstname

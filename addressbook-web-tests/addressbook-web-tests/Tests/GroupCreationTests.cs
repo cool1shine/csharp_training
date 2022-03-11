@@ -20,10 +20,6 @@ namespace Addressbook_web_tests
         public void EmptyGroupCreation()
         {
             GroupData friends = new GroupData("");
-
-            friends.Header = "";
-            friends.Footer = ""; 
-
             applicationManager.GroupHelper.CreateGroup(friends);
         }
     }

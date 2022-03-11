@@ -12,24 +12,63 @@ namespace Addressbook_web_tests
             InitGroupCreation();
             FillGroupForm(groupData);
             SubmitGroupCreation();
-            ReturnToGroupsPage();
+            manager.NavigationHelper.GoToGroupsPage();
             return this;
         }
 
         public GroupHelper ModifyGroup(int p, GroupData friends)
         {
             manager.NavigationHelper.GoToGroupsPage();
+
+            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + p + "]/input")))
+            {
+                ModifySelectedGroup(p, friends);
+                return this;
+            }
+
+            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + p + "]/input")) == false)
+            {
+                GroupData modTest = new GroupData("Modifcation test");
+                CreateGroup(modTest);
+            }
+
+            ModifySelectedGroup(p, friends);
+            return this;
+        }
+
+        public GroupHelper ModifySelectedGroup(int p, GroupData friends)
+        {
             SelectGroup(p);
             InitGroupModification();
             FillGroupForm(friends);
             SubmitGroupModification();
-            ReturnToGroupsPage();
+            manager.NavigationHelper.GoToGroupsPage();
             return this;
         }
 
         public GroupHelper Remove(int v)
         {
             manager.NavigationHelper.GoToGroupsPage();
+
+            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + v + "]/input")))
+            {
+                RemoveSelectedGroup(v);                
+                return this;
+            }
+
+            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + v + "]/input")) == false)
+            {
+                GroupData removalTest = new GroupData("Removal test");
+                CreateGroup(removalTest);
+            }
+
+            RemoveSelectedGroup(v);
+            return this;
+
+        }
+
+        public GroupHelper RemoveSelectedGroup(int v)
+        {
             SelectGroup(v);
             RemoveGroup();
             manager.NavigationHelper.GoToGroupsPage();
@@ -80,12 +119,5 @@ namespace Addressbook_web_tests
             driver.FindElement(By.Name("update")).Click();
             return this;
         }
-
-        public GroupHelper ReturnToGroupsPage()
-        {
-            driver.FindElement(By.LinkText("groups")).Click();
-            return this;
-        }
-
     }
 }
