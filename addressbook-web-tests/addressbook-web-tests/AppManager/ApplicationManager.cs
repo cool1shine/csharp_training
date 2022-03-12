@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using NUnit.Framework;
+﻿using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 

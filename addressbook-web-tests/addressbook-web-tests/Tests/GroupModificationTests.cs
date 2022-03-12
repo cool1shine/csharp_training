@@ -8,7 +8,7 @@ namespace Addressbook_web_tests
         [Test]
         public void GroupModification()
         {
-            int selectedGroup = 1;
+            int selectedGroup = 0;
             GroupData modified_friends = new GroupData(null);
 
             modified_friends.Header = null;

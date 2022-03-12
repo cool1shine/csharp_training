@@ -1,6 +1,8 @@
-﻿namespace Addressbook_web_tests
+﻿using System;
+
+namespace Addressbook_web_tests
 {
-    public class GroupData
+    public class GroupData : IEquatable<GroupData>
     {
         private string groupname;
         private string header = null;
@@ -10,6 +12,24 @@
         public GroupData(string groupname)
         {
             this.groupname = groupname;
+        }
+
+        public bool Equals(GroupData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            { 
+                return false;
+            }
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return Groupname == other.Groupname;
+        }
+
+        public int GetHashCode()
+        { 
+            return Groupname.GetHashCode();
         }
 
         public string Groupname

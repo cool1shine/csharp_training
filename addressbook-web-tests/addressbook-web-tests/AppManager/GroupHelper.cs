@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System.Collections.Generic;
 
 namespace Addressbook_web_tests
 {
@@ -16,17 +17,31 @@ namespace Addressbook_web_tests
             return this;
         }
 
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();            
+
+            manager.NavigationHelper.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+
+            return groups;
+        }
+
         public GroupHelper ModifyGroup(int p, GroupData friends)
         {
             manager.NavigationHelper.GoToGroupsPage();
 
-            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + p + "]/input")))
+            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (p+1) + "]/input")))
             {
                 ModifySelectedGroup(p, friends);
                 return this;
             }
 
-            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + p + "]/input")) == false)
+            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (p+1) + "]/input")) == false)
             {
                 GroupData modTest = new GroupData("Modifcation test");
                 CreateGroup(modTest);
@@ -50,13 +65,13 @@ namespace Addressbook_web_tests
         {
             manager.NavigationHelper.GoToGroupsPage();
 
-            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + v + "]/input")))
+            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (v + 1) + "]/input")))
             {
                 RemoveSelectedGroup(v);                
                 return this;
             }
 
-            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + v + "]/input")) == false)
+            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (v + 1) + "]/input")) == false)
             {
                 GroupData removalTest = new GroupData("Removal test");
                 CreateGroup(removalTest);
@@ -95,7 +110,7 @@ namespace Addressbook_web_tests
 
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index+1) + "]/input")).Click();
             return this;
         }
 
