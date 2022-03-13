@@ -8,8 +8,9 @@ namespace Addressbook_web_tests
         [Test]
         public void ContactRemoval()
         {
-            int position = 1;
+            int position = 2;
 
+            CreatePreconditionForContactTest(position);
             applicationManager.ContactHelper.RemoveContact(position);
         }
 

@@ -9,11 +9,12 @@ namespace Addressbook_web_tests
         public void GroupModification()
         {
             int selectedGroup = 0;
-            GroupData modified_friends = new GroupData(null);
+            GroupData modified_friends = new GroupData("I'm modified!");
 
             modified_friends.Header = null;
-            modified_friends.Footer = "xxx";
+            modified_friends.Footer = null;
 
+            CreatePreconditionForGroupTest(selectedGroup);
             applicationManager.GroupHelper.ModifyGroup(selectedGroup, modified_friends);
         }
 

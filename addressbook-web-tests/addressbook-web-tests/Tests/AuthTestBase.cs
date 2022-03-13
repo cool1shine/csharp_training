@@ -15,5 +15,29 @@ namespace Addressbook_web_tests
             AccountData user = new AccountData("admin", "secret");
             applicationManager.LoginHelper.Login(user);
         }
+
+        protected void CreatePreconditionForGroupTest(int pos)
+        {
+            if (applicationManager.GroupHelper.IsSelectedGroupPresented(pos) == false)
+            {
+                while (applicationManager.GroupHelper.IsSelectedGroupPresented(pos) == false)
+                {
+                    GroupData groupTest = new GroupData("Group test");
+                    applicationManager.GroupHelper.CreateGroup(groupTest);
+                }
+            }
+        }
+
+        protected void CreatePreconditionForContactTest(int pos)
+        {
+            if (applicationManager.ContactHelper.IsSelectedContactPresented(pos) == false)
+            {
+                while (applicationManager.ContactHelper.IsSelectedContactPresented(pos) == false)
+                {
+                    ContactData contactTest = new ContactData("Test", "Contact");
+                    applicationManager.ContactHelper.CreateNewContact(contactTest);
+                }
+            }
+        }
     }
 }

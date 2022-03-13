@@ -18,42 +18,24 @@ namespace Addressbook_web_tests
 
         public ContactHelper RemoveContact(int pos)
         {
-            pos++;
-
-            if (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")))
-            {
-                DeleteSelectedContact(--pos);
-                return this;
-            }
-
-            while (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")) == false)
-            {
-                ContactData contactRemovalTest = new ContactData("Test", "Removal");
-                CreateNewContact(contactRemovalTest);
-            }
-
-            DeleteSelectedContact(--pos);
+            DeleteSelectedContact(pos);
             return this;
         }
 
         public ContactHelper ModifyContact(int pos, ContactData modContact)
         {
-            pos++;
+            ModifySelectedContact(pos, modContact);
+            return this;
+        }
 
+        public bool IsSelectedContactPresented(int pos)
+        {
+            pos++;
             if (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")))
             {
-                ModifySelectedContact(--pos, modContact);
-                return this;
+                return true;
             }
-
-            while (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")) == false)
-            {
-                ContactData contactModTest = new ContactData("Test", "Modification");
-                CreateNewContact(contactModTest);
-            }
-
-            ModifySelectedContact(--pos, modContact);
-            return this;
+            return false;
         }
 
         public ContactHelper DeleteSelectedContact(int pos)

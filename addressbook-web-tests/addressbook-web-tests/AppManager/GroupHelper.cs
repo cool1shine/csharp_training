@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 
 namespace Addressbook_web_tests
@@ -31,22 +32,20 @@ namespace Addressbook_web_tests
             return groups;
         }
 
-        public GroupHelper ModifyGroup(int p, GroupData friends)
+        public bool IsSelectedGroupPresented(int pos)
         {
             manager.NavigationHelper.GoToGroupsPage();
 
-            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (p+1) + "]/input")))
+            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (pos + 1) + "]/input")))
             {
-                ModifySelectedGroup(p, friends);
-                return this;
+                return true;
             }
+            return false;
+        }
 
-            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (p+1) + "]/input")) == false)
-            {
-                GroupData modTest = new GroupData("Modifcation test");
-                CreateGroup(modTest);
-            }
-
+        public GroupHelper ModifyGroup(int p, GroupData friends)
+        {
+            manager.NavigationHelper.GoToGroupsPage();
             ModifySelectedGroup(p, friends);
             return this;
         }
@@ -64,22 +63,8 @@ namespace Addressbook_web_tests
         public GroupHelper Remove(int v)
         {
             manager.NavigationHelper.GoToGroupsPage();
-
-            if (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (v + 1) + "]/input")))
-            {
-                RemoveSelectedGroup(v);                
-                return this;
-            }
-
-            while (IsElementPresent(By.XPath("//div[@id='content']/form/span[" + (v + 1) + "]/input")) == false)
-            {
-                GroupData removalTest = new GroupData("Removal test");
-                CreateGroup(removalTest);
-            }
-
             RemoveSelectedGroup(v);
             return this;
-
         }
 
         public GroupHelper RemoveSelectedGroup(int v)
