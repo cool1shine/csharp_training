@@ -1,6 +1,6 @@
 ﻿namespace Addressbook_web_tests
 {
-    public class ContactData
+    public class ContactData /*: IEquatable<ContactData>, IComparable<ContactData>*/
     {     
         private string firstname = null;
         private string middlename = null;

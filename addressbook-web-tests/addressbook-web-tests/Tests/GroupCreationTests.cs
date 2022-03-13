@@ -17,7 +17,10 @@ namespace Addressbook_web_tests
             List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
             applicationManager.GroupHelper.CreateGroup(friends);
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Add(friends);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -28,7 +31,10 @@ namespace Addressbook_web_tests
             List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
             applicationManager.GroupHelper.CreateGroup(friends);
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Add(friends);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -39,7 +45,10 @@ namespace Addressbook_web_tests
             List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
             applicationManager.GroupHelper.CreateGroup(friends);
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Add(friends);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }

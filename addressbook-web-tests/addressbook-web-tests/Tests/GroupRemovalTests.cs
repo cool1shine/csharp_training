@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace Addressbook_web_tests
@@ -17,7 +16,7 @@ namespace Addressbook_web_tests
             applicationManager.GroupHelper.Remove(pos);
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
             oldGroups.RemoveAt(pos);
-            Assert.AreEqual(oldGroups.Count, newGroups.Count);
+            Assert.AreEqual(oldGroups, newGroups);
             return;
         }
     }
