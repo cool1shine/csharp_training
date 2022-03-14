@@ -23,7 +23,10 @@ namespace Addressbook_web_tests
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
             foreach (IWebElement element in elements)
             {
-                contacts.Add(new ContactData(element.Text, null));
+                IList<IWebElement> row = element.FindElements(By.CssSelector("td"));
+                string firstname = row[1].Text;
+                string lastname = row[2].Text;
+                contacts.Add(new ContactData(firstname, lastname));
             }
             return contacts;
         }

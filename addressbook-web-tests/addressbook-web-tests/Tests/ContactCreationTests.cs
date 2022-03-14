@@ -15,10 +15,10 @@ namespace Addressbook_web_tests
             List<ContactData> oldContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             applicationManager.ContactHelper.CreateNewContact(contact);
             List<ContactData> newContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
-            //oldContacts.Add(contact);
-            //oldContacts.Sort();
-            //newContacts.Sort();
-            Assert.AreEqual(oldContacts.Count+1, newContacts.Count);
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
 
         [Test]
@@ -29,10 +29,10 @@ namespace Addressbook_web_tests
             List<ContactData> oldContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             applicationManager.ContactHelper.CreateNewContact(contact);
             List<ContactData> newContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
-            //oldContacts.Add(contact);
-            //oldContacts.Sort();
-            //newContacts.Sort();
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

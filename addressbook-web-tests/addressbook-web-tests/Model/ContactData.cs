@@ -1,6 +1,8 @@
-﻿namespace Addressbook_web_tests
+﻿using System;
+
+namespace Addressbook_web_tests
 {
-    public class ContactData /*: IEquatable<ContactData>, IComparable<ContactData>*/
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {     
         private string firstname = null;
         private string middlename = null;
@@ -34,6 +36,39 @@
         {
             this.firstname = firstname;
             this.lastname = lastname;
+        }
+
+        public bool Equals(ContactData other)
+        {
+            if(Object.ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return this == other;
+        }
+
+        public override int GetHashCode()
+        {
+            return (Firstname + " " + Lastname).GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return "Contact = " + Firstname + " " + Lastname;
+        }
+
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+
+            return (Firstname + " " + Lastname).CompareTo(other.Firstname + " " + other.Lastname);
         }
 
         public string Firstname
