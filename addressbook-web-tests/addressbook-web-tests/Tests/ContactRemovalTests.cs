@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Addressbook_web_tests
 {
@@ -11,7 +12,13 @@ namespace Addressbook_web_tests
             int position = 2;
 
             CreatePreconditionForContactTest(position);
+            List<ContactData> oldContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             applicationManager.ContactHelper.RemoveContact(position);
+            List<ContactData> newContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
+            oldContacts.RemoveAt(position);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
 
         [Test]

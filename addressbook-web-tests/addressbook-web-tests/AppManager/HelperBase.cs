@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using OpenQA.Selenium;
-
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Addressbook_web_tests
 {
@@ -9,11 +7,13 @@ namespace Addressbook_web_tests
     {
         protected ApplicationManager manager;
         protected IWebDriver driver;
+        protected WebDriverWait wait;
 
         public HelperBase(ApplicationManager manager)
         {
             this.manager = manager;
             driver = manager.Driver;
+            wait = manager.Wait;
         }
 
         public void Type(By locator, string text)

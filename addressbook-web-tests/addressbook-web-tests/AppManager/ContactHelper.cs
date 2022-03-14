@@ -1,5 +1,12 @@
 ﻿using System.Collections.Generic;
 using OpenQA.Selenium;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using System;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+
 
 namespace Addressbook_web_tests
 {
@@ -24,8 +31,8 @@ namespace Addressbook_web_tests
             foreach (IWebElement element in elements)
             {
                 IList<IWebElement> row = element.FindElements(By.CssSelector("td"));
-                string firstname = row[1].Text;
-                string lastname = row[2].Text;
+                string lastname = row[1].Text;
+                string firstname = row[2].Text;
                 contacts.Add(new ContactData(firstname, lastname));
             }
             return contacts;
@@ -33,7 +40,7 @@ namespace Addressbook_web_tests
 
         public ContactHelper RemoveContact(int pos)
         {
-            DeleteSelectedContact(pos);
+            DeleteSelectedContact(pos);            
             return this;
         }
 
@@ -45,8 +52,7 @@ namespace Addressbook_web_tests
 
         public bool IsSelectedContactPresented(int pos)
         {
-            pos++;
-            if (IsElementPresent(By.XPath("//tr[" + pos + "]/td/input")))
+            if (IsElementPresent(By.XPath("//tr[" + (pos + 2) + "]/td/input")))
             {
                 return true;
             }
@@ -84,15 +90,13 @@ namespace Addressbook_web_tests
 
         public ContactHelper InitContactModification(int pos)
         {
-            pos++;            
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + pos + "]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (pos + 2) + "]/td[8]/a/img")).Click();
             return this;
         }
 
         public ContactHelper SelectContact(int pos)
         {
-            pos++;
-            driver.FindElement(By.XPath("//tr[" + pos + "]/td/input")).Click();
+            driver.FindElement(By.XPath("//tr[" + (pos + 2) + "]/td/input")).Click();
             return this;
         }
 
@@ -106,6 +110,8 @@ namespace Addressbook_web_tests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
+            manager.Wait.Until(ExpectedConditions.ElementExists(By.Id("MassCB")));
+            manager.NavigationHelper.GoToHomePage();
             return this;
         }
 
