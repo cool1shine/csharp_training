@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
 
 namespace Addressbook_web_tests
 {
@@ -40,6 +39,7 @@ namespace Addressbook_web_tests
             if (IsLoggedIn())
             {
                 driver.FindElement(By.LinkText("Logout")).Click();
+                driver.FindElement(By.Name("user"));
             }
             return this;
         }

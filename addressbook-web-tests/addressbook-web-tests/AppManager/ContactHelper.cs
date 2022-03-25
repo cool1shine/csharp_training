@@ -1,11 +1,5 @@
 ﻿using System.Collections.Generic;
 using OpenQA.Selenium;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 
 namespace Addressbook_web_tests
@@ -47,6 +41,7 @@ namespace Addressbook_web_tests
         public ContactHelper ModifyContact(int pos, ContactData modContact)
         {
             ModifySelectedContact(pos, modContact);
+            manager.NavigationHelper.GoToHomePage();
             return this;
         }
 
@@ -78,7 +73,6 @@ namespace Addressbook_web_tests
             InitContactModification(pos);
             FillContactData(modContact);
             SubmitContactModification();
-            manager.NavigationHelper.GoToHomePage();
             return this;
         }
 
@@ -110,8 +104,13 @@ namespace Addressbook_web_tests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
-            manager.Wait.Until(ExpectedConditions.ElementExists(By.Id("MassCB")));
-            manager.NavigationHelper.GoToHomePage();
+            //while (driver.FindElements(By.Id("MassCB")).Count != 1)
+            //{
+            //    System.Threading.Thread.Sleep(5000);
+            //}
+            driver.FindElement(By.CssSelector("div.msgbox"));
+            //System.Threading.Thread.Sleep(5000);
+            //driver.FindElement(By.Id("MassCB"));
             return this;
         }
 
