@@ -14,6 +14,7 @@ namespace Addressbook_web_tests
             CreatePreconditionForContactTest(position);
             List<ContactData> oldContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             applicationManager.ContactHelper.RemoveContact(position);
+            Assert.AreEqual(oldContacts.Count - 1, applicationManager.ContactHelper.GetContactCount());
             List<ContactData> newContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             oldContacts.RemoveAt(position);
             oldContacts.Sort();
@@ -24,7 +25,9 @@ namespace Addressbook_web_tests
         [Test]
         public void AllContactsRemoval()
         {
+            CreatePreconditionForContactTest(0);
             applicationManager.ContactHelper.RemoveAllContacts();
+            Assert.AreEqual(0, applicationManager.ContactHelper.GetContactCount());
         }
     }
 }

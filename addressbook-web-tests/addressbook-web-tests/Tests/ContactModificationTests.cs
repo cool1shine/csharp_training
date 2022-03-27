@@ -16,6 +16,7 @@ namespace Addressbook_web_tests
             CreatePreconditionForContactTest(position);
             List<ContactData> beforeMod = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             applicationManager.ContactHelper.ModifyContact(position, modifiedContact);
+            Assert.AreEqual(beforeMod.Count, applicationManager.ContactHelper.GetContactCount());
             List<ContactData> afterMod = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             beforeMod[position] = modifiedContact;
             beforeMod.Sort();

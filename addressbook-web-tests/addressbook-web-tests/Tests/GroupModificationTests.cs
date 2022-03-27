@@ -18,6 +18,7 @@ namespace Addressbook_web_tests
             CreatePreconditionForGroupTest(selectedGroup);
             List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
             applicationManager.GroupHelper.ModifyGroup(selectedGroup, modified_friends);
+            Assert.AreEqual(oldGroups.Count, applicationManager.GroupHelper.GetGroupCount());
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
             oldGroups[selectedGroup].Groupname = modified_friends.Groupname;
             oldGroups.Sort();

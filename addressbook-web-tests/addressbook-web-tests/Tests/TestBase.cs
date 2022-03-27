@@ -11,6 +11,6 @@ namespace Addressbook_web_tests
         protected void SetupApplicationManager()
         {
             applicationManager = ApplicationManager.GetInstance();
-        }        
+        }
     }
 }

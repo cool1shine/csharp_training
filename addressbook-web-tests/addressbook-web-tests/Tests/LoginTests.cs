@@ -17,10 +17,9 @@ namespace Addressbook_web_tests
         public void LoginInvalidCredentials()
         {
             AccountData user = new AccountData("admin", "ыускуе");
+            applicationManager.LoginHelper.Logout();
             applicationManager.LoginHelper.Login(user);
-            //System.Threading.Thread.Sleep(5000);
             Assert.IsFalse(applicationManager.LoginHelper.IsLoggedIn(user));
-
         }
     }
 }

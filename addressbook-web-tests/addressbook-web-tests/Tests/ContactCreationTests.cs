@@ -13,6 +13,7 @@ namespace Addressbook_web_tests
             contact.Company = "GGG";
             List<ContactData> oldContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             applicationManager.ContactHelper.CreateNewContact(contact);
+            Assert.AreEqual(oldContacts.Count + 1, applicationManager.ContactHelper.GetContactCount());
             List<ContactData> newContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             oldContacts.Add(contact);
             oldContacts.Sort();
@@ -27,6 +28,7 @@ namespace Addressbook_web_tests
 
             List<ContactData> oldContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             applicationManager.ContactHelper.CreateNewContact(contact);
+            Assert.AreEqual(oldContacts.Count + 1, applicationManager.ContactHelper.GetContactCount());
             List<ContactData> newContacts = new List<ContactData>(applicationManager.ContactHelper.GetContactList());
             oldContacts.Add(contact);
             oldContacts.Sort();

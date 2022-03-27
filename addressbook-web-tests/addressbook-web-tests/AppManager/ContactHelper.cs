@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 
@@ -8,28 +9,38 @@ namespace Addressbook_web_tests
     {
         public ContactHelper(ApplicationManager manager) : base(manager) { }
 
+        private List<ContactData> contactCache = null;
+
+        internal int GetContactCount()
+        {
+            return driver.FindElements(By.Name("selected[]")).Count;
+        }
+
+        public List<ContactData> GetContactList()
+        {
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
+                foreach (IWebElement element in elements)
+                {
+                    IList<IWebElement> row = element.FindElements(By.CssSelector("td"));
+                    string lastname = row[1].Text;
+                    string firstname = row[2].Text;
+                    contactCache.Add(new ContactData(firstname, lastname));
+                }
+            }
+            return new List<ContactData>(contactCache);
+        }
+
         public ContactHelper CreateNewContact(ContactData contact)
         {
             InitContactCreation();
             FillContactData(contact);
             SubmitContactCreation();
             manager.NavigationHelper.GoToHomePage();
+            contactCache = null;
             return this;
-        }
-
-        public List<ContactData> GetContactList()
-        {
-            List<ContactData> contacts = new List<ContactData>();
-                        
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
-            foreach (IWebElement element in elements)
-            {
-                IList<IWebElement> row = element.FindElements(By.CssSelector("td"));
-                string lastname = row[1].Text;
-                string firstname = row[2].Text;
-                contacts.Add(new ContactData(firstname, lastname));
-            }
-            return contacts;
         }
 
         public ContactHelper RemoveContact(int pos)
@@ -100,27 +111,26 @@ namespace Addressbook_web_tests
             return this;
         }
 
-        public ContactHelper DeleteContacts()
-        {
-            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
-            driver.SwitchTo().Alert().Accept();
-            //while (driver.FindElements(By.Id("MassCB")).Count != 1)
-            //{
-            //    System.Threading.Thread.Sleep(5000);
-            //}
-            driver.FindElement(By.CssSelector("div.msgbox"));
-            return this;
-        }
-
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//div[@id='content']/form/input[21]")).Click();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
+            return this;
+        }
+        public ContactHelper DeleteContacts()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            driver.SwitchTo().Alert().Accept();
+            //driver.FindElement(By.CssSelector("div.msgbox"));
+            System.Threading.Thread.Sleep(4000);
+            contactCache = null;
             return this;
         }
 
