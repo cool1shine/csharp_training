@@ -109,8 +109,6 @@ namespace Addressbook_web_tests
             //    System.Threading.Thread.Sleep(5000);
             //}
             driver.FindElement(By.CssSelector("div.msgbox"));
-            //System.Threading.Thread.Sleep(5000);
-            //driver.FindElement(By.Id("MassCB"));
             return this;
         }
 

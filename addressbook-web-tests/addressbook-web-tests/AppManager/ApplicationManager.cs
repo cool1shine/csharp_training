@@ -19,7 +19,7 @@ namespace Addressbook_web_tests
         private ApplicationManager()
         {
             driver = new FirefoxDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
             baseURL = "http://localhost/addressbook/";            
             loginHelper = new LoginHelper(this);
             navigationHelper = new NavigationHelper(this, baseURL);

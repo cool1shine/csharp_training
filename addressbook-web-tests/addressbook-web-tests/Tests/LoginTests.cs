@@ -18,6 +18,7 @@ namespace Addressbook_web_tests
         {
             AccountData user = new AccountData("admin", "ыускуе");
             applicationManager.LoginHelper.Login(user);
+            //System.Threading.Thread.Sleep(5000);
             Assert.IsFalse(applicationManager.LoginHelper.IsLoggedIn(user));
 
         }

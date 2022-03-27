@@ -10,10 +10,10 @@ namespace Addressbook_web_tests
         {
             if (IsLoggedIn())
             {
-                if (IsLoggedIn(user))
-                {
-                    return this;
-                }
+                //if (IsLoggedIn(user))
+                //{
+                //    return this;
+                //}
                 Logout();
             }
 
@@ -39,7 +39,7 @@ namespace Addressbook_web_tests
             if (IsLoggedIn())
             {
                 driver.FindElement(By.LinkText("Logout")).Click();
-                driver.FindElement(By.Name("user"));
+                //driver.FindElement(By.Name("user"));
             }
             return this;
         }
