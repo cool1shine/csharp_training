@@ -17,6 +17,7 @@ namespace Addressbook_web_tests
 
             CreatePreconditionForGroupTest(selectedGroup);
             List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
+            GroupData groupToBeMod = oldGroups[selectedGroup];
             applicationManager.GroupHelper.ModifyGroup(selectedGroup, modified_friends);
             Assert.AreEqual(oldGroups.Count, applicationManager.GroupHelper.GetGroupCount());
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
@@ -24,7 +25,13 @@ namespace Addressbook_web_tests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+            foreach (GroupData group in newGroups)
+            {
+                if (group.Id == groupToBeMod.Id)
+                {
+                    Assert.AreEqual("I am modified!", group.Groupname);
+                }
+            }
         }
-
     }
 }

@@ -9,6 +9,7 @@ namespace Addressbook_web_tests
         public GroupHelper(ApplicationManager manager) : base(manager) { }
 
         private List<GroupData> groupCache = null;
+
         public bool IsSelectedGroupPresented(int pos)
         {
             manager.NavigationHelper.GoToGroupsPage();
@@ -34,8 +35,15 @@ namespace Addressbook_web_tests
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    groupCache.Add(new GroupData(element.Text));
+                    groupCache.Add
+                    (
+                        new GroupData(element.Text)
+                        {
+                            Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                        }
+                    );
                 }
+
             }
             return new List<GroupData>(groupCache);
         }

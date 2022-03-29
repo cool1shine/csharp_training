@@ -13,11 +13,16 @@ namespace Addressbook_web_tests
 
             CreatePreconditionForGroupTest(pos);
             List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
+            GroupData groupToBeRemoved = oldGroups[pos];
             applicationManager.GroupHelper.Remove(pos);
             Assert.AreEqual(oldGroups.Count - 1, applicationManager.GroupHelper.GetGroupCount());
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
             oldGroups.RemoveAt(pos);
             Assert.AreEqual(oldGroups, newGroups);
+            foreach (GroupData group in newGroups)
+            {
+                Assert.AreNotEqual(groupToBeRemoved.Id, group.Id);
+            }
             return;
         }
 
