@@ -33,9 +33,11 @@ namespace Addressbook_web_tests
             applicationManager.GroupHelper.CreateGroup(friends);
             Assert.AreEqual(oldGroups.Count + 1, applicationManager.GroupHelper.GetGroupCount());
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
+
             oldGroups.Add(friends);
             oldGroups.Sort();
             newGroups.Sort();
+
             Assert.AreEqual(oldGroups, newGroups);
         }
 
@@ -48,9 +50,11 @@ namespace Addressbook_web_tests
             applicationManager.GroupHelper.CreateGroup(friends);
             Assert.AreEqual(oldGroups.Count + 1, applicationManager.GroupHelper.GetGroupCount());
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
+
             oldGroups.Add(friends);
             oldGroups.Sort();
             newGroups.Sort();
+
             Assert.AreEqual(oldGroups, newGroups);
         }
     }

@@ -4,6 +4,7 @@ namespace Addressbook_web_tests
 {
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
+        public GroupData() { }
 
         public GroupData(string groupname)
         {
@@ -20,6 +21,7 @@ namespace Addressbook_web_tests
             {
                 return true;
             }
+            //return Groupname.Equals(other.Groupname, StringComparison.OrdinalIgnoreCase)/* == other.Groupname*/;
             return Groupname == other.Groupname;
         }
 

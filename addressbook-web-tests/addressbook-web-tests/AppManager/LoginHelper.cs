@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 
 namespace Addressbook_web_tests
 {
@@ -29,9 +30,16 @@ namespace Addressbook_web_tests
 
         public bool IsLoggedIn(AccountData account)
         {
-            return IsLoggedIn()
-                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
-                == "(" + account.Username + ")";
+            return IsLoggedIn() && GetLoggedUserName() == account.Username;
+                //driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
+                //== System.String.Format($"({account.Username})");
+        }
+
+        private string GetLoggedUserName()
+        {
+            string rawUsername = driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text;
+            string username = rawUsername.Substring(1, rawUsername.Length - 2);
+            return username;
         }
 
         public LoginHelper Logout()

@@ -37,11 +37,26 @@ namespace Addressbook_web_tests
                 {
                     groupCache.Add
                     (
-                        new GroupData(element.Text)
+                        new GroupData()
                         {
                             Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                         }
                     );
+                }
+
+                string allGroupsNames = driver.FindElement(By.CssSelector("div#content form")).Text;
+                string [] parts = allGroupsNames.Split('\n');
+                int shift = groupCache.Count - parts.Length;
+                for (int i = 0; i < groupCache.Count; i++)
+                {
+                    if (i < shift)
+                    {
+                        groupCache[i].Groupname = "";
+                    }
+                    else 
+                    {
+                        groupCache[i].Groupname = parts[i-shift].Trim();
+                    }                    
                 }
 
             }
