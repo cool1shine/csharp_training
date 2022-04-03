@@ -34,5 +34,15 @@ namespace Addressbook_web_tests
                 }
             }
         }
+
+        protected void CreatePreconditionForContactTest(ContactData newContact)
+        {
+            applicationManager.ContactHelper.CreateNewContact(newContact);
+        }
+
+        protected bool ThereIsFullFilledContact()
+        {
+            return applicationManager.ContactHelper.ICanFindFullFilledContact();
+        }
     }
 }

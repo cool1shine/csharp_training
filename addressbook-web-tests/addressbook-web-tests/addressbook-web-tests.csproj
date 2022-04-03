@@ -81,6 +81,7 @@
     <Compile Include="Tests\GroupCreationTests.cs" />
     <Compile Include="Tests\!Draft.cs" />
     <Compile Include="Tests\ContactInformationTests.cs" />
+    <Compile Include="Tests\SearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

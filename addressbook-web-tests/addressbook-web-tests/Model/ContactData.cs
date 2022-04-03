@@ -1,10 +1,12 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
+using System;
 
 namespace Addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string phones;
+        private string emails;
 
         public ContactData(string firstname, string lastname)
         {
@@ -49,14 +51,33 @@ namespace Addressbook_web_tests
             return Firstname.CompareTo(other.Firstname);
         }
 
-        public string Id { get; set; }
-        public string Firstname { get; set; }
-        public string Middlename { get; set; }
-        public string Lastname { get; set; }
-        public string Nickname { get; set; }
-        public string Title { get; set; }
-        public string Company { get; set; }
-        public string Address { get; set; }
+        private string CleanUpPhones(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+
+            return Regex.Replace(phone, "[ ./<>()-]", "") + "\r\n";
+
+            //return phone.Replace(" ", "")
+            //            .Replace("-", "")
+            //            .Replace("(", "")
+            //            .Replace(")", "")
+            //            + "\r\n";
+
+        }
+
+        private string CleanUpEmails(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+
+            return email + "\r\n";
+        }
+
         public string Phones
         {
             get
@@ -67,7 +88,7 @@ namespace Addressbook_web_tests
                 }
                 else
                 {
-                    return (CleanUp(Home) + CleanUp(Mobile) + CleanUp(Work))
+                    return (CleanUpPhones(Home) + CleanUpPhones(Mobile) + CleanUpPhones(Work))
                            .Trim();
                 }
             }
@@ -77,24 +98,37 @@ namespace Addressbook_web_tests
             }
         }
 
-        private string CleanUp(string phone)
+        public string Emails
         {
-            if (phone == null || phone == "")
+            get
             {
-                return "";
+                if (emails != null)
+                {
+                    return emails;
+                }
+                else
+                {
+                    return (CleanUpEmails(Email) + CleanUpEmails(Email2) + CleanUpEmails(Email3)).Trim();
+                }
             }
-            return phone.Replace(" ", "")
-                        .Replace("-", "")
-                        .Replace("(", "")
-                        .Replace(")", "")
-                        + "\r\n";
-
+            set
+            {
+                emails = value;
+            }
         }
 
+        public string Id { get; set; }
+        public string Firstname { get; set; }
+        public string Middlename { get; set; }
+        public string Lastname { get; set; }
+        public string Nickname { get; set; }
+        public string Title { get; set; }
+        public string Company { get; set; }
+        public string Address { get; set; }
         public string Home { get; set; }
         public string Mobile { get; set; }
         public string Work { get; set; }
-        public string Fax { get; set; }
+        public string Fax { get; set; }        
         public string Email { get; set; }
         public string Email2 { get; set; }
         public string Email3 { get; set; }

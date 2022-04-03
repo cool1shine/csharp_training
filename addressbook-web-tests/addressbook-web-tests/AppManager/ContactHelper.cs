@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System;
 using OpenQA.Selenium;
 
 
@@ -13,6 +14,7 @@ namespace Addressbook_web_tests
 
         public int GetContactCount()
         {
+            manager.NavigationHelper.GoToHomePage();
             return driver.FindElements(By.Name("selected[]")).Count;
         }
 
@@ -24,11 +26,13 @@ namespace Addressbook_web_tests
             string firstname = cells[2].Text;
             string lastname = cells[1].Text;
             string address = cells[3].Text;
+            string emails = cells[4].Text;
             string phones = cells[5].Text;
 
             return new ContactData(firstname, lastname)
             {
                 Address = address,
+                Emails = emails,
                 Phones = phones
             };
         }
@@ -40,16 +44,115 @@ namespace Addressbook_web_tests
             string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
             string home = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobile = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string work = driver.FindElement(By.Name("work")).GetAttribute("value");
             return new ContactData(firstname, lastname)
             {
-                Address = address, 
+                Address = address,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
                 Home = home,
                 Mobile = mobile,
                 Work = work,
             };            
+        }
+
+        public bool ICanFindFullFilledContact()
+        {
+            bool fullFilledContactIsFound = false;
+
+            manager.NavigationHelper.GoToHomePage();
+
+            for (int index = GetContactCount() - 1; fullFilledContactIsFound == false && index >= 0; index--)
+            {                
+                fullFilledContactIsFound = IsContactFullFilled(index);
+            }  
+            
+            return fullFilledContactIsFound;
+        }
+
+        internal int FindIndexOfFullFilledContact()
+        {
+            bool fullFilledContactIsFound = false;
+            int index = GetContactCount() - 1;
+
+            manager.NavigationHelper.GoToHomePage();
+
+            while (fullFilledContactIsFound == false && index >= 0)
+            {
+                fullFilledContactIsFound = IsContactFullFilled(index);
+                index--;
+            }
+
+            return index++;            
+        }
+
+        public bool IsContactFullFilled(int index)
+        {
+            manager.NavigationHelper.GoToHomePage();
+            ContactData contact = GetContactInformationFromTable(index);
+            if (
+                       (contact.Firstname != "") 
+                    && (contact.Lastname != "") 
+                    && (contact.Address != "") 
+                    && (contact.Emails != "")
+                    && (contact.Phones != "") 
+                )
+            {
+                return true;
+            }
+            else
+            { 
+                return false;
+            }            
+        }
+
+        public int GetNumberOfVisibleContacts()
+        {
+            List<ContactData> readedContacts = new List<ContactData>(GetContactList());
+            List<ContactData> visibleContacts = new List<ContactData>();
+            foreach (ContactData contact in readedContacts)
+            {
+                if (contact.Firstname != "" && contact.Lastname != "" && contact.Address != "" && contact.Emails != "" && contact.Phones != "")
+                {
+                    visibleContacts.Add(contact);
+                }
+            }
+            return visibleContacts.Count;
+        }
+
+        public int GetNumberOfResults()
+        {
+            manager.NavigationHelper.GoToHomePage();
+            string results = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(results);
+            return Int32.Parse(m.Value);
+            //int n = 0;
+            //bool isParsable = Int32.TryParse(driver.FindElement(By.Id("search_count")).Text, out n);
+            //return n;
+        }
+
+        public string GetStringFromContact(string contactField, int letterPosition, int lettersNumber)
+        {
+
+            if (contactField == null || contactField == "")
+            {
+                return "";
+            }
+
+            return contactField.Substring(letterPosition, lettersNumber);           
+        }
+
+        public ContactHelper EnterStringToSearchField(string search)
+        {
+            manager.NavigationHelper.GoToHomePage();
+            Type(By.Name("searchstring"), search);
+            return this;
         }
 
         public List<ContactData> GetContactList()
