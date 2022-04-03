@@ -18,6 +18,39 @@ namespace Addressbook_web_tests
             return driver.FindElements(By.Name("selected[]")).Count;
         }
 
+        public int GetNumberOfVisibleContacts()
+        {
+            int count = 0;
+
+            manager.NavigationHelper.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
+            foreach (IWebElement element in elements)
+            {
+                if (element.Displayed == true)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public List<ContactData> GetContactList()
+        {
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
+                foreach (IWebElement element in elements)
+                {
+                    IList<IWebElement> row = element.FindElements(By.CssSelector("td"));
+                    string lastname = row[1].Text;
+                    string firstname = row[2].Text;
+                    contactCache.Add(new ContactData(firstname, lastname));
+                }
+            }
+            return new List<ContactData>(contactCache);
+        }
+
         public ContactData GetContactInformationFromTable(int index)
         {
             manager.NavigationHelper.GoToHomePage();
@@ -97,11 +130,11 @@ namespace Addressbook_web_tests
             manager.NavigationHelper.GoToHomePage();
             ContactData contact = GetContactInformationFromTable(index);
             if (
-                       (contact.Firstname != "") 
-                    && (contact.Lastname != "") 
-                    && (contact.Address != "") 
-                    && (contact.Emails != "")
-                    && (contact.Phones != "") 
+                       (contact.Firstname != "") && (contact.Firstname != null)
+                    && (contact.Lastname != "") && (contact.Lastname != null)
+                    && (contact.Address != "") && (contact.Address != null)
+                    && (contact.Emails != "") && (contact.Emails != null)
+                    && (contact.Phones != "") && (contact.Phones != null)
                 )
             {
                 return true;
@@ -110,20 +143,6 @@ namespace Addressbook_web_tests
             { 
                 return false;
             }            
-        }
-
-        public int GetNumberOfVisibleContacts()
-        {
-            List<ContactData> readedContacts = new List<ContactData>(GetContactList());
-            List<ContactData> visibleContacts = new List<ContactData>();
-            foreach (ContactData contact in readedContacts)
-            {
-                if (contact.Firstname != "" && contact.Lastname != "" && contact.Address != "" && contact.Emails != "" && contact.Phones != "")
-                {
-                    visibleContacts.Add(contact);
-                }
-            }
-            return visibleContacts.Count;
         }
 
         public int GetNumberOfResults()
@@ -153,23 +172,6 @@ namespace Addressbook_web_tests
             manager.NavigationHelper.GoToHomePage();
             Type(By.Name("searchstring"), search);
             return this;
-        }
-
-        public List<ContactData> GetContactList()
-        {
-            if (contactCache == null)
-            {
-                contactCache = new List<ContactData>();
-                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
-                foreach (IWebElement element in elements)
-                {
-                    IList<IWebElement> row = element.FindElements(By.CssSelector("td"));
-                    string lastname = row[1].Text;
-                    string firstname = row[2].Text;
-                    contactCache.Add(new ContactData(firstname, lastname));
-                }
-            }
-            return new List<ContactData>(contactCache);
         }
 
         public ContactHelper CreateNewContact(ContactData contact)

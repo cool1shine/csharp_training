@@ -4,17 +4,17 @@
 namespace Addressbook_web_tests
 {
     [TestFixture]
-    public class SearchTestCase : AuthTestBase
+    public class ContactSearchTestCase : AuthTestBase
     {
         [Test]
         public void NumberOfResultsByStringFromContact()
         {
-            int index = 2;
-            string request = "t";
+            int pre = 2;
+            string request = "eh";
             int numberOfResults;
             int numberOfContactsOnPage;
 
-            CreatePreconditionForContactTest(index);
+            CreatePreconditionForContactTest(pre);
 
             applicationManager.ContactHelper.EnterStringToSearchField(request);
             numberOfResults = applicationManager.ContactHelper.GetNumberOfResults();
