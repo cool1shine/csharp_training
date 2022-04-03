@@ -7,6 +7,9 @@ namespace Addressbook_web_tests
     {
         private string phones;
         private string emails;
+        private string viewForm;
+
+        public ContactData() { }
 
         public ContactData(string firstname, string lastname)
         {
@@ -114,6 +117,27 @@ namespace Addressbook_web_tests
             set
             {
                 emails = value;
+            }
+        }
+
+        public string ViewForm
+        {
+            get
+            {
+                if (viewForm != null)
+                {
+                    return viewForm;
+                }
+                else
+                {
+                    string sumString = Firstname + Lastname + Address + Phones + Emails;
+                    sumString = sumString.Replace("\r\n", "");
+                    return sumString;
+                }
+            }
+            set
+            {
+                viewForm = value;
             }
         }
 

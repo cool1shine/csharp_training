@@ -22,7 +22,6 @@ namespace Addressbook_web_tests
         {
             int count = 0;
 
-            manager.NavigationHelper.GoToHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
             foreach (IWebElement element in elements)
             {
@@ -92,7 +91,48 @@ namespace Addressbook_web_tests
                 Home = home,
                 Mobile = mobile,
                 Work = work,
-            };            
+            };
+        }
+
+        internal string GetStringFromViewForm(int index)
+        {
+            String[] viewDataArray = new String[] { };
+
+            manager.NavigationHelper.GoToHomePage();
+            InitContactView(index);
+            string viewDataString = driver.FindElement(By.Id("content")).Text;
+            viewDataArray = viewDataString.Split('\r');
+
+            for (int n = 0; n < viewDataArray.Length; n++)
+            {
+                if (viewDataArray[n].StartsWith("\nH: ") || viewDataArray[n].StartsWith("\nM: ") || viewDataArray[n].StartsWith("\nW: "))
+                {
+                    viewDataArray[n] = Regex.Replace(viewDataArray[n], "[./<>()-]", "");
+                }
+            }
+
+            viewDataString = "";
+
+            for (int n = 0; n < viewDataArray.Length; n++)
+            {
+                viewDataString = viewDataString + viewDataArray[n];
+            }
+
+            viewDataString = viewDataString.Replace("\nH: ", "");
+            viewDataString = viewDataString.Replace("\nM: ", "");
+            viewDataString = viewDataString.Replace("\nW: ", "");
+            viewDataString = viewDataString.Replace(" ", "");
+            viewDataString = viewDataString.Replace("\n", "");
+            return viewDataString;
+        }
+
+        public ContactHelper InitContactView(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                  .FindElements(By.TagName("td"))[6]
+                  .FindElement(By.TagName("a"))
+                  .Click();
+            return this;
         }
 
         public bool ICanFindFullFilledContact()
@@ -122,7 +162,7 @@ namespace Addressbook_web_tests
                 index--;
             }
 
-            return index++;            
+            return ++index;            
         }
 
         public bool IsContactFullFilled(int index)
@@ -130,11 +170,11 @@ namespace Addressbook_web_tests
             manager.NavigationHelper.GoToHomePage();
             ContactData contact = GetContactInformationFromTable(index);
             if (
-                       (contact.Firstname != "") && (contact.Firstname != null)
-                    && (contact.Lastname != "") && (contact.Lastname != null)
-                    && (contact.Address != "") && (contact.Address != null)
-                    && (contact.Emails != "") && (contact.Emails != null)
-                    && (contact.Phones != "") && (contact.Phones != null)
+                       ((contact.Firstname != "") && (contact.Firstname != null))
+                    && ((contact.Lastname != "") && (contact.Lastname != null))
+                    && ((contact.Address != "") && (contact.Address != null))
+                    && ((contact.Emails != "") && (contact.Emails != null))
+                    && ((contact.Phones != "") && (contact.Phones != null))
                 )
             {
                 return true;

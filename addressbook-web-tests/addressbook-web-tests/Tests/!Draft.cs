@@ -10,7 +10,9 @@ namespace Addressbook_web_tests
         public void ConsoleOut()
         {
             int n = 7;
-            Console.Out.WriteLine($"{n}");
+            string str = "abvc";
+            str = str + "earg";
+            Console.Out.WriteLine($"{str}");
         }
     }
 }
