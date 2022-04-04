@@ -23,7 +23,7 @@ namespace Addressbook_web_tests
             StringBuilder builder = new StringBuilder();
             for (int n = 0; n <  l; n++)
             {
-                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223)));
+                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 65)));
             }
             return builder.ToString();
         }
