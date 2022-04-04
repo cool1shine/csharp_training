@@ -98,6 +98,7 @@ namespace Addressbook_web_tests
                 }
                 else
                 {
+                    
                     return (CleanUpPhones(Home) + CleanUpPhones(Mobile) + CleanUpPhones(Work))
                            .Trim();
                 }
@@ -138,7 +139,7 @@ namespace Addressbook_web_tests
                 else
                 {
                     string sumString = Firstname + Lastname + Address + Phones + Emails;
-                    sumString = sumString.Replace("\r\n", "");
+                    sumString = sumString.Replace("\r\n", "").Replace(" ", "");
                     return sumString;
                 }
             }
