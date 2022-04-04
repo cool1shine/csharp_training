@@ -1,60 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Addressbook_web_tests
-{
+{   
+    
     [TestFixture]
     public class GroupCreationTestCase : AuthTestBase
     {
-        [Test]
-        public void GroupCreation()
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
-            GroupData friends = new GroupData("bastards");            
-
-            friends.Header = "drink";
-            friends.Footer = "vodka";
-
-            List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
-            applicationManager.GroupHelper.CreateGroup(friends);
-            Assert.AreEqual(oldGroups.Count + 1, applicationManager.GroupHelper.GetGroupCount());
-            List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
-            oldGroups.Add(friends);
-            oldGroups.Sort();
-            newGroups.Sort();
-            Assert.AreEqual(oldGroups, newGroups);
+            List<GroupData> groups = new List<GroupData>();
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData(GenerateRandomString(30))
+                {
+                    Header = GenerateRandomString(100),
+                    Footer = GenerateRandomString(100),
+                });
+            }
+            GroupData group = new GroupData();
+            return groups;
         }
 
-        [Test]
-        public void EmptyGroupCreation()
+        [Test, TestCaseSource("RandomGroupDataProvider")]
+        public void GroupCreation(GroupData group)
         {
-            GroupData friends = new GroupData("");
-
             List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
-            applicationManager.GroupHelper.CreateGroup(friends);
+            applicationManager.GroupHelper.CreateGroup(group);
             Assert.AreEqual(oldGroups.Count + 1, applicationManager.GroupHelper.GetGroupCount());
             List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
-
-            oldGroups.Add(friends);
+            oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
-
-            Assert.AreEqual(oldGroups, newGroups);
-        }
-
-        [Test]
-        public void BadNameGroupCreation()
-        {
-            GroupData friends = new GroupData("'");
-
-            List<GroupData> oldGroups = applicationManager.GroupHelper.GetGroupList();
-            applicationManager.GroupHelper.CreateGroup(friends);
-            Assert.AreEqual(oldGroups.Count + 1, applicationManager.GroupHelper.GetGroupCount());
-            List<GroupData> newGroups = applicationManager.GroupHelper.GetGroupList();
-
-            oldGroups.Add(friends);
-            oldGroups.Sort();
-            newGroups.Sort();
-
             Assert.AreEqual(oldGroups, newGroups);
         }
     }
