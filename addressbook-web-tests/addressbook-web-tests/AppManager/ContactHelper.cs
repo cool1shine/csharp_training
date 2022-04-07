@@ -100,19 +100,28 @@ namespace Addressbook_web_tests
 
             manager.NavigationHelper.GoToHomePage();
             InitContactView(index);
+
+            //Считываем всю информацию о контакте со страницы просмотра контакта одной строкой
             string viewDataString = driver.FindElement(By.Id("content")).Text;
+
+            //Полученная строка содержит префиксы номеров телефонов "\nH: ", "\nM: ", ("\nW: ", от которых нужно избавиться,
+            //потому что определить какой префикс должен быть у кого-либо номера телефона в таблице невозможно исходя из информации в таблице.
+            //Эта резка делается для удобста работы с информацией со страницы просмотра, в конце концов возвращаться будет целая строка подобная полученной из таблицы.
             viewDataArray = viewDataString.Split('\r');
 
             for (int n = 0; n < viewDataArray.Length; n++)
             {
                 if (viewDataArray[n].StartsWith("\nH: ") || viewDataArray[n].StartsWith("\nM: ") || viewDataArray[n].StartsWith("\nW: "))
                 {
+                    //Также исходя из информации в таблице невозможно определить, есть ли символы [./<>()-] в номерах телефонов, избавляемся.
                     viewDataArray[n] = Regex.Replace(viewDataArray[n], "[./<>()-]", "");
                 }
             }
 
+            //Очистка считанной строки перед склейкой
             viewDataString = "";
 
+            //Склейка и очистка
             for (int n = 0; n < viewDataArray.Length; n++)
             {
                 viewDataString = viewDataString + viewDataArray[n];

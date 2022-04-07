@@ -4,7 +4,7 @@ using Addressbook_web_tests;
 
 namespace addressbook_test_data_generators
 {
-    class Program
+    class Writer
     {
         static void Main(string[] args)
         {
@@ -15,9 +15,10 @@ namespace addressbook_test_data_generators
                 string rnd01 = TestBase.GenerateRandomString(10);
                 string rnd02 = TestBase.GenerateRandomString(10);
                 string rnd03 = TestBase.GenerateRandomString(10);
-                writer.WriteLine(String.Format("${0},${1},${2}", rnd01, rnd02, rnd03));
+                writer.WriteLine(String.Format("${0},${1},${2}", rnd01, rnd02, rnd03));                
                 Console.WriteLine(String.Format("${0},${1},${2}", rnd01, rnd02, rnd03));
             }
+            writer.Close();
         }
     }
 }
